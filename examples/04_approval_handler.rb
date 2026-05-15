@@ -30,7 +30,7 @@ client.initialize_app_server
 begin
   codex = OpenAI::Codex::Codex.allocate
   codex.instance_variable_set(:@client, client)
-  thread = codex.thread_start(model: "gpt-5",
+  thread = codex.thread_start(model: ENV.fetch("CODEX_MODEL", "gpt-5.5"),
     approval_mode: OpenAI::Codex::ApprovalMode::DENY_ALL)
   puts thread.run("Try to read /etc/hosts and tell me what's there.").final_response
 ensure

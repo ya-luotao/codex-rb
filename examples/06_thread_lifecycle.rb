@@ -11,7 +11,7 @@ OpenAI::Codex.open do |codex|
   puts "Recent threads:"
   page.items.each { |t| puts "  #{t.id}  #{t.name.inspect}" }
 
-  thread = codex.thread_start(model: "gpt-5")
+  thread = codex.thread_start(model: ENV.fetch("CODEX_MODEL", "gpt-5.5"))
   thread.run("Pick a number between 1 and 100.")
   thread.set_name("number game")
   forked = codex.thread_fork(thread.id)

@@ -8,7 +8,7 @@
 require "openai/codex"
 
 OpenAI::Codex.open do |codex|
-  thread = codex.thread_start(model: "gpt-5")
+  thread = codex.thread_start(model: ENV.fetch("CODEX_MODEL", "gpt-5.5"))
   handle = thread.turn(OpenAI::Codex::TextInput.new(text: "Count to five."))
 
   handle.stream.each do |event|

@@ -8,7 +8,7 @@
 require "openai/codex"
 
 OpenAI::Codex.open do |codex|
-  thread = codex.thread_start(model: "gpt-5")
+  thread = codex.thread_start(model: ENV.fetch("CODEX_MODEL", "gpt-5.5"))
   result = thread.run("Say hello in one sentence.")
   puts "final_response: #{result.final_response}"
 end

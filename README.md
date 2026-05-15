@@ -22,7 +22,7 @@ The Ruby package does not bundle the Codex runtime binary. Use an installed
 require "openai/codex"
 
 OpenAI::Codex.open do |codex|
-  thread = codex.thread_start(model: "gpt-5")
+  thread = codex.thread_start(model: "gpt-5.5")
   result = thread.run("Say hello in one sentence.")
   puts result.final_response
 end
@@ -34,7 +34,7 @@ end
 require "openai/codex"
 
 OpenAI::Codex::AsyncCodex.open do |codex|
-  thread = codex.thread_start(model: "gpt-5").value!
+  thread = codex.thread_start(model: "gpt-5.5").value!
   result = thread.run("Say hello in one sentence.").value!
   puts result.final_response
 end
