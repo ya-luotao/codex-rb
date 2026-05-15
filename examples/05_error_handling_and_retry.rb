@@ -17,7 +17,7 @@ OpenAI::Codex.open do |codex|
     initial_delay_s: 0.25,
     max_delay_s: 2.0
   )
-  puts "model count: #{response.models.length}"
+  puts "model count: #{response.data.length}"
 rescue OpenAI::Codex::RetryLimitExceededError => err
   warn "Server kept signaling overload: #{err.rpc_message}"
 rescue OpenAI::Codex::AppServerRpcError => err
