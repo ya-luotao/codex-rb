@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 #
 # Async variant of the quickstart. Each AsyncCodex call returns an OpenAI::Codex::Future
 # whose #value! blocks until the underlying worker thread resolves it. This mirrors the

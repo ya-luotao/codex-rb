@@ -9,7 +9,7 @@ class ClientTest < Minitest::Test
     client = OpenAI::Codex::AppServerClient.new
     params = OpenAI::Codex::Types::ThreadListParams.new(search_term: "needle", archived: nil)
 
-    assert_equal({ "searchTerm" => "needle" }, client.params_dict(params))
+    assert_equal({"searchTerm" => "needle"}, client.params_dict(params))
   end
 
   def test_reader_loop_routes_interleaved_notifications_by_turn_id
@@ -18,10 +18,10 @@ class ClientTest < Minitest::Test
     client.register_turn_notifications("turn-2")
 
     messages = [
-      { "method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-1", "one-a") },
-      { "method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-2", "two-a") },
-      { "method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-1", "one-b") },
-      { "method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-2", "two-b") }
+      {"method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-1", "one-a")},
+      {"method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-2", "two-a")},
+      {"method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-1", "one-b")},
+      {"method" => "item/agentMessage/delta", "params" => fixture_agent_delta("turn-2", "two-b")}
     ]
 
     client.define_singleton_method(:read_message) do

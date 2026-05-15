@@ -77,7 +77,7 @@ class LifecycleTest < Minitest::Test
   def test_config_overrides_are_passed_as_repeated_config_args
     fake_bin = "/bin/sh"
     config = OpenAI::Codex::AppServerConfig.new(codex_bin: fake_bin,
-                                                config_overrides: ["a=1", "b=2"])
+      config_overrides: ["a=1", "b=2"])
     client = OpenAI::Codex::AppServerClient.new(config: config)
 
     args = client.send(:launch_args)

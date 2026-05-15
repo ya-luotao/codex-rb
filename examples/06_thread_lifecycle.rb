@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 #
 # Inspect the broader thread surface: list, resume, fork, rename, archive.
 

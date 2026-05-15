@@ -8,7 +8,7 @@ class AsyncClientTest < Minitest::Test
 
     def thread_start(params)
       @received = params
-      OpenAI::Codex::Types::ThreadStartResponse.from_wire({ "thread" => { "id" => "t-1" } }, validate: false)
+      OpenAI::Codex::Types::ThreadStartResponse.from_wire({"thread" => {"id" => "t-1"}}, validate: false)
     end
   end
 

@@ -46,13 +46,13 @@ class ErrorsTest < Minitest::Test
   end
 
   def test_overload_payload_detection_in_nested_codex_error_info
-    err = Errors.map_jsonrpc_error(-32_010, "busy", { "codexErrorInfo" => "server_overloaded" })
+    err = Errors.map_jsonrpc_error(-32_010, "busy", {"codexErrorInfo" => "server_overloaded"})
 
     assert_instance_of OpenAI::Codex::ServerBusyError, err
   end
 
   def test_overload_payload_detection_in_nested_hash_value
-    err = Errors.map_jsonrpc_error(-32_010, "busy", { "extra" => { "errorInfo" => { "kind" => "server_overloaded" } } })
+    err = Errors.map_jsonrpc_error(-32_010, "busy", {"extra" => {"errorInfo" => {"kind" => "server_overloaded"}}})
 
     assert_instance_of OpenAI::Codex::ServerBusyError, err
   end

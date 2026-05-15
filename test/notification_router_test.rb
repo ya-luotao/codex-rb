@@ -60,7 +60,7 @@ class NotificationRouterTest < Minitest::Test
     router.register_turn("turn-2")
 
     router.route_notification(OpenAI::Codex::Notification.new(method: "unknown/direct", payload: OpenAI::Codex::UnknownNotification.new("turnId" => "turn-1")))
-    router.route_notification(OpenAI::Codex::Notification.new(method: "unknown/nested", payload: OpenAI::Codex::UnknownNotification.new("turn" => { "id" => "turn-2" })))
+    router.route_notification(OpenAI::Codex::Notification.new(method: "unknown/nested", payload: OpenAI::Codex::UnknownNotification.new("turn" => {"id" => "turn-2"})))
 
     assert_equal "unknown/direct", router.next_turn_notification("turn-1").method
     assert_equal "unknown/nested", router.next_turn_notification("turn-2").method

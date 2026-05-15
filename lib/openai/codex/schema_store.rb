@@ -75,7 +75,7 @@ module OpenAI
         return if defined?(@defined_types) && @defined_types
 
         definitions.each do |name, schema|
-          next unless name =~ /\A[A-Z][A-Za-z0-9_]*\z/
+          next unless /\A[A-Z][A-Za-z0-9_]*\z/.match?(name)
 
           klass = Class.new(base_class)
           klass.schema_name = name
@@ -94,7 +94,7 @@ module OpenAI
 
         (methods.flat_map { |info| [info["params"], info["response"]] } +
           notifications.map { |info| info["params"] }).compact.uniq.each do |name|
-          next unless name =~ /\A[A-Z][A-Za-z0-9_]*\z/
+          next unless /\A[A-Z][A-Za-z0-9_]*\z/.match?(name)
           next if namespace.const_defined?(name, false)
 
           klass = Class.new(base_class)
@@ -134,7 +134,7 @@ module OpenAI
       def enum_constant_name(value)
         name = value.to_s.gsub(/[^A-Za-z0-9]+/, "_").gsub(/\A_+|_+\z/, "").upcase
         name = "VALUE" if name.empty?
-        name = "VALUE_#{name}" if name =~ /\A\d/
+        name = "VALUE_#{name}" if /\A\d/.match?(name)
         name
       end
     end

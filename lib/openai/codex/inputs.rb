@@ -4,31 +4,31 @@ module OpenAI
   module Codex
     TextInput = Struct.new(:text, keyword_init: true) do
       def to_wire
-        { type: "text", text: text }
+        {type: "text", text: text}
       end
     end
 
     ImageInput = Struct.new(:url, keyword_init: true) do
       def to_wire
-        { type: "image", url: url }
+        {type: "image", url: url}
       end
     end
 
     LocalImageInput = Struct.new(:path, keyword_init: true) do
       def to_wire
-        { type: "localImage", path: path }
+        {type: "localImage", path: path}
       end
     end
 
     SkillInput = Struct.new(:name, :path, keyword_init: true) do
       def to_wire
-        { type: "skill", name: name, path: path }
+        {type: "skill", name: name, path: path}
       end
     end
 
     MentionInput = Struct.new(:name, :path, keyword_init: true) do
       def to_wire
-        { type: "mention", name: name, path: path }
+        {type: "mention", name: name, path: path}
       end
     end
 

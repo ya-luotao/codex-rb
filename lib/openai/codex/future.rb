@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "thread"
-
 module OpenAI
   module Codex
     # Lightweight future used to surface asynchronous calls without binding to a
@@ -22,19 +20,17 @@ module OpenAI
         @value = nil
         @error = nil
         @thread = ::Thread.new do
-          begin
-            value = block.call
-            @mutex.synchronize do
-              @value = value
-              @completed = true
-              @condvar.broadcast
-            end
-          rescue Exception => error # rubocop:disable Lint/RescueException
-            @mutex.synchronize do
-              @error = error
-              @completed = true
-              @condvar.broadcast
-            end
+          value = block.call
+          @mutex.synchronize do
+            @value = value
+            @completed = true
+            @condvar.broadcast
+          end
+        rescue Exception => error # rubocop:disable Lint/RescueException
+          @mutex.synchronize do
+            @error = error
+            @completed = true
+            @condvar.broadcast
           end
         end
       end

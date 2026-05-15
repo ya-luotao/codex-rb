@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rake/testtask"
+require "standard/rake"
 
 Rake::TestTask.new(:test) do |task|
   task.libs << "lib"

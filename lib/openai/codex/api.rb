@@ -65,8 +65,8 @@ module OpenAI
         user_agent = payload.user_agent.to_s.strip
         server = payload.server_info
 
-        server_name = server && server.respond_to?(:name) ? server.name.to_s.strip : ""
-        server_version = server && server.respond_to?(:version) ? server.version.to_s.strip : ""
+        server_name = (server && server.respond_to?(:name)) ? server.name.to_s.strip : ""
+        server_version = (server && server.respond_to?(:version)) ? server.version.to_s.strip : ""
 
         if (server_name.empty? || server_version.empty?) && !user_agent.empty?
           parsed_name, parsed_version = split_user_agent(user_agent)
@@ -75,12 +75,12 @@ module OpenAI
         end
 
         if user_agent.empty? || server_name.empty? || server_version.empty?
-          raise RuntimeError, "initialize response missing required metadata " \
+          raise "initialize response missing required metadata " \
                               "(user_agent=#{user_agent.inspect}, server_name=#{server_name.inspect}, " \
                               "server_version=#{server_version.inspect})"
         end
 
-        payload[:server_info] = { name: server_name, version: server_version }
+        payload[:server_info] = {name: server_name, version: server_version}
         payload
       end
 
@@ -90,7 +90,7 @@ module OpenAI
         return raw.split("/", 2) if raw.include?("/")
 
         parts = raw.split(/\s+/, 2)
-        parts.length == 2 ? parts : [raw, nil]
+        (parts.length == 2) ? parts : [raw, nil]
       end
 
       def close
@@ -98,19 +98,19 @@ module OpenAI
       end
 
       def thread_start(approval_mode: ApprovalMode::AUTO_REVIEW,
-                       base_instructions: nil,
-                       config: nil,
-                       cwd: nil,
-                       developer_instructions: nil,
-                       ephemeral: nil,
-                       model: nil,
-                       model_provider: nil,
-                       personality: nil,
-                       sandbox: nil,
-                       service_name: nil,
-                       service_tier: nil,
-                       session_start_source: nil,
-                       thread_source: nil)
+        base_instructions: nil,
+        config: nil,
+        cwd: nil,
+        developer_instructions: nil,
+        ephemeral: nil,
+        model: nil,
+        model_provider: nil,
+        personality: nil,
+        sandbox: nil,
+        service_name: nil,
+        service_tier: nil,
+        session_start_source: nil,
+        thread_source: nil)
         approval_policy, approvals_reviewer = ApprovalModes.settings(approval_mode)
         params = Types::ThreadStartParams.new(
           approval_policy: approval_policy,
@@ -134,15 +134,15 @@ module OpenAI
       end
 
       def thread_list(archived: nil,
-                      cursor: nil,
-                      cwd: nil,
-                      limit: nil,
-                      model_providers: nil,
-                      search_term: nil,
-                      sort_direction: nil,
-                      sort_key: nil,
-                      source_kinds: nil,
-                      use_state_db_only: nil)
+        cursor: nil,
+        cwd: nil,
+        limit: nil,
+        model_providers: nil,
+        search_term: nil,
+        sort_direction: nil,
+        sort_key: nil,
+        source_kinds: nil,
+        use_state_db_only: nil)
         params = Types::ThreadListParams.new(
           archived: archived,
           cursor: cursor,
@@ -159,16 +159,16 @@ module OpenAI
       end
 
       def thread_resume(thread_id,
-                        approval_mode: nil,
-                        base_instructions: nil,
-                        config: nil,
-                        cwd: nil,
-                        developer_instructions: nil,
-                        model: nil,
-                        model_provider: nil,
-                        personality: nil,
-                        sandbox: nil,
-                        service_tier: nil)
+        approval_mode: nil,
+        base_instructions: nil,
+        config: nil,
+        cwd: nil,
+        developer_instructions: nil,
+        model: nil,
+        model_provider: nil,
+        personality: nil,
+        sandbox: nil,
+        service_tier: nil)
         approval_policy, approvals_reviewer = ApprovalModes.override_settings(approval_mode)
         params = Types::ThreadResumeParams.new(
           thread_id: thread_id,
@@ -189,17 +189,17 @@ module OpenAI
       end
 
       def thread_fork(thread_id,
-                      approval_mode: nil,
-                      base_instructions: nil,
-                      config: nil,
-                      cwd: nil,
-                      developer_instructions: nil,
-                      ephemeral: nil,
-                      model: nil,
-                      model_provider: nil,
-                      sandbox: nil,
-                      service_tier: nil,
-                      thread_source: nil)
+        approval_mode: nil,
+        base_instructions: nil,
+        config: nil,
+        cwd: nil,
+        developer_instructions: nil,
+        ephemeral: nil,
+        model: nil,
+        model_provider: nil,
+        sandbox: nil,
+        service_tier: nil,
+        thread_source: nil)
         approval_policy, approvals_reviewer = ApprovalModes.override_settings(approval_mode)
         params = Types::ThreadForkParams.new(
           thread_id: thread_id,
@@ -243,15 +243,15 @@ module OpenAI
       end
 
       def run(input,
-              approval_mode: nil,
-              cwd: nil,
-              effort: nil,
-              model: nil,
-              output_schema: nil,
-              personality: nil,
-              sandbox_policy: nil,
-              service_tier: nil,
-              summary: nil)
+        approval_mode: nil,
+        cwd: nil,
+        effort: nil,
+        model: nil,
+        output_schema: nil,
+        personality: nil,
+        sandbox_policy: nil,
+        service_tier: nil,
+        summary: nil)
         handle = turn(
           Inputs.normalize_run_input(input),
           approval_mode: approval_mode,
@@ -268,15 +268,15 @@ module OpenAI
       end
 
       def turn(input,
-               approval_mode: nil,
-               cwd: nil,
-               effort: nil,
-               model: nil,
-               output_schema: nil,
-               personality: nil,
-               sandbox_policy: nil,
-               service_tier: nil,
-               summary: nil)
+        approval_mode: nil,
+        cwd: nil,
+        effort: nil,
+        model: nil,
+        output_schema: nil,
+        personality: nil,
+        sandbox_policy: nil,
+        service_tier: nil,
+        summary: nil)
         wire_input = Inputs.to_wire_input(input)
         approval_policy, approvals_reviewer = ApprovalModes.override_settings(approval_mode)
         params = Types::TurnStartParams.new(
@@ -337,8 +337,8 @@ module OpenAI
               event = @client.next_turn_notification(@id)
               yielder << event
               break if event.method == "turn/completed" &&
-                       event.payload.is_a?(Types::TurnCompletedNotification) &&
-                       event.payload.turn.id == @id
+                event.payload.is_a?(Types::TurnCompletedNotification) &&
+                event.payload.turn.id == @id
             end
           ensure
             @client.unregister_turn_notifications(@id)
@@ -352,7 +352,7 @@ module OpenAI
           payload = event.payload
           completed = payload if payload.is_a?(Types::TurnCompletedNotification) && payload.turn.id == @id
         end
-        raise RuntimeError, "turn completed event not received" unless completed
+        raise "turn completed event not received" unless completed
 
         completed.turn
       end

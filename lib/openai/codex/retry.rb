@@ -13,7 +13,7 @@ module OpenAI
 
         begin
           attempts += 1
-          return yield
+          yield
         rescue JsonRpcError => error
           raise unless Errors.retryable_error?(error) && attempts < max_attempts
 

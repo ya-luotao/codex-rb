@@ -18,7 +18,10 @@ class FutureTest < Minitest::Test
   end
 
   def test_future_value_raises_timeout_when_block_pending
-    future = OpenAI::Codex::Future.run { sleep 0.5; 1 }
+    future = OpenAI::Codex::Future.run {
+      sleep 0.5
+      1
+    }
 
     assert_raises(OpenAI::Codex::Future::TimeoutError) { future.value!(0.01) }
   end

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 #
 # Demonstrate an interactive approval handler. The default policy auto-approves
 # command and file-change requests, which is convenient for prototyping but is
@@ -13,11 +14,11 @@ approval_handler = lambda do |method, params|
   when "item/commandExecution/requestApproval"
     print "Allow command #{params&.dig("command").inspect}? [y/N] "
     answer = $stdin.gets&.strip&.downcase
-    { decision: answer == "y" ? "accept" : "deny" }
+    {decision: (answer == "y") ? "accept" : "deny"}
   when "item/fileChange/requestApproval"
     print "Allow file change to #{params&.dig("path").inspect}? [y/N] "
     answer = $stdin.gets&.strip&.downcase
-    { decision: answer == "y" ? "accept" : "deny" }
+    {decision: (answer == "y") ? "accept" : "deny"}
   else
     {}
   end
@@ -30,7 +31,7 @@ begin
   codex = OpenAI::Codex::Codex.allocate
   codex.instance_variable_set(:@client, client)
   thread = codex.thread_start(model: "gpt-5",
-                              approval_mode: OpenAI::Codex::ApprovalMode::DENY_ALL)
+    approval_mode: OpenAI::Codex::ApprovalMode::DENY_ALL)
   puts thread.run("Try to read /etc/hosts and tell me what's there.").final_response
 ensure
   client.close

@@ -63,7 +63,7 @@ end
 
 def parse_notifications(source)
   source.scan(/\{ "method": "([^"]+)", "params": ([A-Za-z0-9_]+) \}/).map do |method, params|
-    { "method" => method, "params" => params }
+    {"method" => method, "params" => params}
   end
 end
 
@@ -76,15 +76,15 @@ data_dir = File.join(ROOT, "data")
 FileUtils.rm_rf(File.join(data_dir, "schemas"))
 FileUtils.mkdir_p(File.join(data_dir, "schemas", "json"))
 FileUtils.cp(File.join(SCHEMA_ROOT, "json", "codex_app_server_protocol.v2.schemas.json"),
-             File.join(data_dir, "schemas", "json", "codex_app_server_protocol.v2.schemas.json"))
+  File.join(data_dir, "schemas", "json", "codex_app_server_protocol.v2.schemas.json"))
 Dir[File.join(SCHEMA_ROOT, "json", "*.json")].each do |path|
   FileUtils.cp(path, File.join(data_dir, "schemas", "json", File.basename(path)))
 end
 FileUtils.cp_r(File.join(SCHEMA_ROOT, "json", "v2"),
-               File.join(data_dir, "schemas", "json", "v2"))
+  File.join(data_dir, "schemas", "json", "v2"))
 
 write_json(File.join(data_dir, "protocol_methods.json"), parse_client_methods(read(COMMON_RS)))
 write_json(File.join(data_dir, "protocol_notifications.json"),
-           parse_notifications(read(File.join(SCHEMA_ROOT, "typescript", "ServerNotification.ts"))))
+  parse_notifications(read(File.join(SCHEMA_ROOT, "typescript", "ServerNotification.ts"))))
 
 puts "synced Codex app-server protocol artifacts into #{data_dir}"

@@ -60,12 +60,12 @@ class RetryTest < Minitest::Test
       attempts += 1
       raise overload if attempts < 2
 
-      OpenAI::Codex::Types::ModelListResponse.from_wire({ "models" => [] }, validate: false)
+      OpenAI::Codex::Types::ModelListResponse.from_wire({"models" => []}, validate: false)
     end
 
     response = client.request_with_retry_on_overload(
       "model/list",
-      { "includeHidden" => false },
+      {"includeHidden" => false},
       response_type: OpenAI::Codex::Types::ModelListResponse,
       max_attempts: 4,
       initial_delay_s: 0,

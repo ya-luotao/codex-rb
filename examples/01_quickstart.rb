@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 #
 # Minimal end-to-end: start a thread, run one prompt, print the final response.
 # Requires `codex` on PATH or OPENAI_CODEX_BIN set to the runtime binary.

@@ -40,7 +40,7 @@ module OpenAI
       end
 
       def request_with_retry_on_overload(method, params = nil, response_type: nil,
-                                         max_attempts: 3, initial_delay_s: 0.25, max_delay_s: 2.0)
+        max_attempts: 3, initial_delay_s: 0.25, max_delay_s: 2.0)
         Future.run do
           @sync.request_with_retry_on_overload(
             method,

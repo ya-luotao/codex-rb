@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "thread"
 require_relative "errors"
 require_relative "notification_registry"
 
@@ -52,7 +51,7 @@ module OpenAI
 
       def next_turn_notification(turn_id)
         queue = @mutex.synchronize { @turn_notifications[turn_id] }
-        raise RuntimeError, "turn #{turn_id.inspect} is not registered for streaming" unless queue
+        raise "turn #{turn_id.inspect} is not registered for streaming" unless queue
 
         item = queue.pop
         raise item if item.is_a?(Exception)
@@ -68,12 +67,12 @@ module OpenAI
         if message.key?("error")
           error = message["error"]
           waiter << if error.is_a?(Hash)
-                      Errors.map_jsonrpc_error(error.fetch("code", -32_000).to_i,
-                                               error.fetch("message", "unknown").to_s,
-                                               error["data"])
-                    else
-                      AppServerError.new("Malformed JSON-RPC error response")
-                    end
+            Errors.map_jsonrpc_error(error.fetch("code", -32_000).to_i,
+              error.fetch("message", "unknown").to_s,
+              error["data"])
+          else
+            AppServerError.new("Malformed JSON-RPC error response")
+          end
           return
         end
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 #
 # Stream assistant message deltas as they arrive instead of waiting for the
 # final response.

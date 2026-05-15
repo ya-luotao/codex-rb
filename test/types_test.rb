@@ -6,7 +6,7 @@ class TypesTest < Minitest::Test
   def test_params_models_dump_snake_case_to_camel_case_wire_keys
     params = OpenAI::Codex::Types::ThreadListParams.new(search_term: "needle", limit: 5)
 
-    assert_equal({ "searchTerm" => "needle", "limit" => 5 }, params.to_h(exclude_nil: true))
+    assert_equal({"searchTerm" => "needle", "limit" => 5}, params.to_h(exclude_nil: true))
   end
 
   def test_enum_constants_are_generated_from_schema_values

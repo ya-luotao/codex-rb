@@ -3,7 +3,6 @@
 require "json"
 require "open3"
 require "securerandom"
-require "thread"
 require_relative "app_server_config"
 require_relative "errors"
 require_relative "message_router"
@@ -152,7 +151,7 @@ module OpenAI
       end
 
       def thread_resume(thread_id, params = nil)
-        request("thread/resume", { threadId: thread_id }.merge(params_dict(params)), response_type: Types::ThreadResumeResponse)
+        request("thread/resume", {threadId: thread_id}.merge(params_dict(params)), response_type: Types::ThreadResumeResponse)
       end
 
       def thread_list(params = nil)
@@ -160,27 +159,27 @@ module OpenAI
       end
 
       def thread_read(thread_id, include_turns: false)
-        request("thread/read", { threadId: thread_id, includeTurns: include_turns }, response_type: Types::ThreadReadResponse)
+        request("thread/read", {threadId: thread_id, includeTurns: include_turns}, response_type: Types::ThreadReadResponse)
       end
 
       def thread_fork(thread_id, params = nil)
-        request("thread/fork", { threadId: thread_id }.merge(params_dict(params)), response_type: Types::ThreadForkResponse)
+        request("thread/fork", {threadId: thread_id}.merge(params_dict(params)), response_type: Types::ThreadForkResponse)
       end
 
       def thread_archive(thread_id)
-        request("thread/archive", { threadId: thread_id }, response_type: Types::ThreadArchiveResponse)
+        request("thread/archive", {threadId: thread_id}, response_type: Types::ThreadArchiveResponse)
       end
 
       def thread_unarchive(thread_id)
-        request("thread/unarchive", { threadId: thread_id }, response_type: Types::ThreadUnarchiveResponse)
+        request("thread/unarchive", {threadId: thread_id}, response_type: Types::ThreadUnarchiveResponse)
       end
 
       def thread_set_name(thread_id, name)
-        request("thread/name/set", { threadId: thread_id, name: name }, response_type: Types::ThreadSetNameResponse)
+        request("thread/name/set", {threadId: thread_id, name: name}, response_type: Types::ThreadSetNameResponse)
       end
 
       def thread_compact(thread_id)
-        request("thread/compact/start", { threadId: thread_id }, response_type: Types::ThreadCompactStartResponse)
+        request("thread/compact/start", {threadId: thread_id}, response_type: Types::ThreadCompactStartResponse)
       end
 
       def turn_start(thread_id, input_items, params = nil)
@@ -191,26 +190,26 @@ module OpenAI
       end
 
       def turn_interrupt(thread_id, turn_id)
-        request("turn/interrupt", { threadId: thread_id, turnId: turn_id }, response_type: Types::TurnInterruptResponse)
+        request("turn/interrupt", {threadId: thread_id, turnId: turn_id}, response_type: Types::TurnInterruptResponse)
       end
 
       def turn_steer(thread_id, expected_turn_id, input_items)
         request(
           "turn/steer",
-          { threadId: thread_id, expectedTurnId: expected_turn_id, input: normalize_input_items(input_items) },
+          {threadId: thread_id, expectedTurnId: expected_turn_id, input: normalize_input_items(input_items)},
           response_type: Types::TurnSteerResponse
         )
       end
 
       def model_list(include_hidden: false)
-        request("model/list", { includeHidden: include_hidden }, response_type: Types::ModelListResponse)
+        request("model/list", {includeHidden: include_hidden}, response_type: Types::ModelListResponse)
       end
 
       def request_with_retry_on_overload(method, params = nil, response_type: nil,
-                                         max_attempts: 3, initial_delay_s: 0.25, max_delay_s: 2.0)
+        max_attempts: 3, initial_delay_s: 0.25, max_delay_s: 2.0)
         Retry.retry_on_overload(max_attempts: max_attempts,
-                                initial_delay_s: initial_delay_s,
-                                max_delay_s: max_delay_s) do
+          initial_delay_s: initial_delay_s,
+          max_delay_s: max_delay_s) do
           request(method, params, response_type: response_type)
         end
       end
@@ -221,8 +220,8 @@ module OpenAI
           loop do
             event = next_turn_notification(turn_id)
             return event.payload if event.method == "turn/completed" &&
-                                    event.payload.is_a?(Types::TurnCompletedNotification) &&
-                                    event.payload.turn.id == turn_id
+              event.payload.is_a?(Types::TurnCompletedNotification) &&
+              event.payload.turn.id == turn_id
           end
         ensure
           unregister_turn_notifications(turn_id)
@@ -238,14 +237,14 @@ module OpenAI
             loop do
               event = next_turn_notification(turn_id)
               if event.method == "item/agentMessage/delta" &&
-                 event.payload.is_a?(Types::AgentMessageDeltaNotification) &&
-                 event.payload.turn_id == turn_id
+                  event.payload.is_a?(Types::AgentMessageDeltaNotification) &&
+                  event.payload.turn_id == turn_id
                 yielder << event.payload
                 next
               end
               break if event.method == "turn/completed" &&
-                       event.payload.is_a?(Types::TurnCompletedNotification) &&
-                       event.payload.turn.id == turn_id
+                event.payload.is_a?(Types::TurnCompletedNotification) &&
+                event.payload.turn.id == turn_id
             end
           ensure
             unregister_turn_notifications(turn_id)
@@ -273,7 +272,7 @@ module OpenAI
       def normalize_input_items(input_items)
         case input_items
         when String
-          [{ "type" => "text", "text" => input_items }]
+          [{"type" => "text", "text" => input_items}]
         when Hash
           [Util.deep_wire_value(input_items, exclude_nil: true)]
         when Model
@@ -325,7 +324,7 @@ module OpenAI
       def default_approval_handler(method, _params)
         case method
         when "item/commandExecution/requestApproval", "item/fileChange/requestApproval"
-          { decision: "accept" }
+          {decision: "accept"}
         else
           {}
         end
@@ -333,14 +332,12 @@ module OpenAI
 
       def start_stderr_drain_thread
         @stderr_thread = ::Thread.new do
-          begin
-            @stderr.each_line do |line|
-              @stderr_lines << line.chomp
-              @stderr_lines.shift while @stderr_lines.length > 400
-            end
-          rescue IOError
-            nil
+          @stderr.each_line do |line|
+            @stderr_lines << line.chomp
+            @stderr_lines.shift while @stderr_lines.length > 400
           end
+        rescue IOError
+          nil
         end
       end
 

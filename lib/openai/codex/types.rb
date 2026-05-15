@@ -17,8 +17,8 @@ module OpenAI
     Types::ServerInfo.schema_definition = {
       "type" => "object",
       "properties" => {
-        "name" => { "type" => ["string", "null"] },
-        "version" => { "type" => ["string", "null"] }
+        "name" => {"type" => ["string", "null"]},
+        "version" => {"type" => ["string", "null"]}
       }
     }
 
@@ -30,17 +30,17 @@ module OpenAI
             {
               "type" => "object",
               "properties" => {
-                "name" => { "type" => ["string", "null"] },
-                "version" => { "type" => ["string", "null"] }
+                "name" => {"type" => ["string", "null"]},
+                "version" => {"type" => ["string", "null"]}
               }
             },
-            { "type" => "null" }
+            {"type" => "null"}
           ]
         },
-        "userAgent" => { "type" => ["string", "null"] },
-        "platformFamily" => { "type" => ["string", "null"] },
-        "platformOs" => { "type" => ["string", "null"] },
-        "codexHome" => { "type" => ["string", "null"] }
+        "userAgent" => {"type" => ["string", "null"]},
+        "platformFamily" => {"type" => ["string", "null"]},
+        "platformOs" => {"type" => ["string", "null"]},
+        "codexHome" => {"type" => ["string", "null"]}
       }
     }
   end

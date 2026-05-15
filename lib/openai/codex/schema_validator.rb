@@ -38,12 +38,10 @@ module OpenAI
       def validate_union!(value, variants, path, label)
         errors = []
         variants.each do |variant|
-          begin
-            validate!(value, variant, path)
-            return true
-          rescue ValidationError => error
-            errors << error.message
-          end
+          validate!(value, variant, path)
+          return true
+        rescue ValidationError => error
+          errors << error.message
         end
         raise ValidationError, "#{path} did not match #{label}: #{errors.first}"
       end

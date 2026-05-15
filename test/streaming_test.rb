@@ -17,15 +17,15 @@ class StreamingTest < Minitest::Test
     router.register_turn("turn-1")
     router.route_notification(
       OpenAI::Codex::NotificationRegistry.coerce("item/agentMessage/delta",
-                                                 fixture_agent_delta("turn-1", "a"))
+        fixture_agent_delta("turn-1", "a"))
     )
     router.route_notification(
       OpenAI::Codex::NotificationRegistry.coerce("item/agentMessage/delta",
-                                                 fixture_agent_delta("turn-1", "b"))
+        fixture_agent_delta("turn-1", "b"))
     )
     router.route_notification(
       OpenAI::Codex::NotificationRegistry.coerce("turn/completed",
-                                                 fixture_completed_turn("turn-1"))
+        fixture_completed_turn("turn-1"))
     )
 
     deltas = handle.stream.map(&:method)
@@ -43,7 +43,7 @@ class StreamingTest < Minitest::Test
     router.register_turn("turn-1")
     router.route_notification(
       OpenAI::Codex::NotificationRegistry.coerce("turn/completed",
-                                                 fixture_completed_turn("turn-1"))
+        fixture_completed_turn("turn-1"))
     )
 
     turn = handle.run
@@ -94,7 +94,7 @@ class StreamingTest < Minitest::Test
           "id" => "turn-1",
           "items" => [],
           "status" => "failed",
-          "error" => { "message" => "model exploded" }
+          "error" => {"message" => "model exploded"}
         }
       }
     )

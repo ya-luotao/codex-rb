@@ -8,18 +8,18 @@ class ApiTest < Minitest::Test
 
     def thread_start(params)
       @thread_start_params = params.to_h(exclude_nil: true)
-      OpenAI::Codex::Types::ThreadStartResponse.from_wire({ "thread" => { "id" => "thread-1" } }, validate: false)
+      OpenAI::Codex::Types::ThreadStartResponse.from_wire({"thread" => {"id" => "thread-1"}}, validate: false)
     end
 
     def thread_resume(thread_id, params)
       @thread_resume_args = [thread_id, params.to_h(exclude_nil: true)]
       @thread_resume_params = @thread_resume_args.last
-      OpenAI::Codex::Types::ThreadResumeResponse.from_wire({ "thread" => { "id" => thread_id } }, validate: false)
+      OpenAI::Codex::Types::ThreadResumeResponse.from_wire({"thread" => {"id" => thread_id}}, validate: false)
     end
 
     def turn_start(_thread_id, _wire_input, params)
       @turn_start_params = params.to_h(exclude_nil: true)
-      OpenAI::Codex::Types::TurnStartResponse.from_wire({ "turn" => { "id" => "turn-1" } }, validate: false)
+      OpenAI::Codex::Types::TurnStartResponse.from_wire({"turn" => {"id" => "turn-1"}}, validate: false)
     end
   end
 
@@ -71,7 +71,7 @@ class ApiTest < Minitest::Test
     assert_equal(
       {
         "threadId" => "thread-1",
-        "input" => [{ "type" => "text", "text" => "hello" }],
+        "input" => [{"type" => "text", "text" => "hello"}],
         "model" => "gpt-5"
       },
       fake.turn_start_params

@@ -198,17 +198,15 @@ module OpenAI
       def stream
         @client.sync.register_turn_notifications(@id)
         Enumerator.new do |yielder|
-          begin
-            loop do
-              event = @client.next_turn_notification(@id).value!
-              yielder << event
-              break if event.method == "turn/completed" &&
-                       event.payload.is_a?(Types::TurnCompletedNotification) &&
-                       event.payload.turn.id == @id
-            end
-          ensure
-            @client.sync.unregister_turn_notifications(@id)
+          loop do
+            event = @client.next_turn_notification(@id).value!
+            yielder << event
+            break if event.method == "turn/completed" &&
+              event.payload.is_a?(Types::TurnCompletedNotification) &&
+              event.payload.turn.id == @id
           end
+        ensure
+          @client.sync.unregister_turn_notifications(@id)
         end
       end
 
@@ -219,7 +217,7 @@ module OpenAI
             payload = event.payload
             completed = payload if payload.is_a?(Types::TurnCompletedNotification) && payload.turn.id == @id
           end
-          raise RuntimeError, "turn completed event not received" unless completed
+          raise "turn completed event not received" unless completed
 
           completed.turn
         end

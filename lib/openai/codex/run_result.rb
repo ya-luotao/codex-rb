@@ -31,7 +31,7 @@ module OpenAI
           end
         end
 
-        raise RuntimeError, "turn completed event not received" unless completed
+        raise "turn completed event not received" unless completed
 
         raise_for_failed_turn(completed.turn)
         RunResult.new(final_response: final_response_from_items(items), items: items, usage: usage)
@@ -41,10 +41,10 @@ module OpenAI
         return unless turn.status == "failed"
 
         if turn.respond_to?(:error) && turn.error && turn.error.respond_to?(:message) && turn.error.message
-          raise RuntimeError, turn.error.message
+          raise turn.error.message.to_s
         end
 
-        raise RuntimeError, "turn failed with status #{turn.status}"
+        raise "turn failed with status #{turn.status}"
       end
 
       def final_response_from_items(items)
