@@ -9,7 +9,7 @@ require "openai/codex"
 OpenAI::Codex.open do |codex|
   page = codex.thread_list(limit: 5)
   puts "Recent threads:"
-  page.items.each { |t| puts "  #{t.id}  #{t.name.inspect}" }
+  page.data.each { |t| puts "  #{t.id}  #{t.name.inspect}" }
 
   thread = codex.thread_start(model: ENV.fetch("CODEX_MODEL", "gpt-5.5"))
   thread.run("Pick a number between 1 and 100.")
