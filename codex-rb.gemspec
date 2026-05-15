@@ -3,12 +3,12 @@
 require_relative "lib/openai/codex/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "openai-codex-rb"
+  spec.name = "codex-rb"
   spec.version = OpenAI::Codex::VERSION
   spec.authors = ["OpenAI"]
   spec.summary = "Ruby SDK for Codex app-server JSON-RPC v2"
   spec.description = "Schema-backed Ruby SDK for the Codex app-server v2 protocol over stdio."
-  spec.homepage = "https://github.com/openai/codex"
+  spec.homepage = "https://github.com/ya-luotao/codex-rb"
   spec.license = "Apache-2.0"
   spec.required_ruby_version = ">= 2.6"
 
@@ -28,8 +28,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.metadata = {
-    "source_code_uri" => "https://github.com/openai/codex",
-    "changelog_uri" => "https://github.com/openai/codex/blob/main/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/ya-luotao/codex-rb",
+    "changelog_uri" => "https://github.com/ya-luotao/codex-rb/blob/main/CHANGELOG.md",
     "rubygems_mfa_required" => "true"
   }
 

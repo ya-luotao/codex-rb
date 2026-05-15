@@ -1,4 +1,4 @@
-# Contributing to openai-codex-rb
+# Contributing to codex-rb
 
 This Ruby SDK tracks the upstream OpenAI Codex app-server v2 protocol. Most changes
 fall into two buckets: protocol regeneration and Ruby-side ergonomics.
@@ -50,5 +50,5 @@ When changing public API:
 1. Bump `VERSION` and `UPSTREAM_VERSION` in `lib/openai/codex/version.rb`.
 2. Update `CHANGELOG.md`.
 3. Run `bundle exec rake test`.
-4. `gem build openai-codex-rb.gemspec`.
-5. `gem push openai-codex-rb-<version>.gem`.
+4. `gem build codex-rb.gemspec`.
+5. `gem push codex-rb-<version>.gem`.

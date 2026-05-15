@@ -24,4 +24,4 @@ jobs:
       - name: Run tests
         run: bundle exec rake test
       - name: Build gem
-        run: gem build openai-codex-rb.gemspec
+        run: gem build codex-rb.gemspec

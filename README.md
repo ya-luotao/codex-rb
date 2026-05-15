@@ -9,7 +9,7 @@ with Ruby `snake_case` accessors and `camelCase` wire serialization.
 ## Install
 
 ```ruby
-gem "openai-codex-rb"
+gem "codex-rb"
 ```
 
 The Ruby package does not bundle the Codex runtime binary. Use an installed
