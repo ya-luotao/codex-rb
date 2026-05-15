@@ -26,7 +26,10 @@ module OpenAI
         if !kwargs.empty?
           raise ArgumentError, "cannot combine scalar value with keyword fields" unless value.nil? || value.is_a?(Hash)
 
-          value = (value || {}).merge(kwargs)
+          # Treat nil kwargs as "absent" — mirrors Rust `Option<T>` +
+          # `skip_serializing_if` upstream. Callers needing an explicit
+          # JSON null should pass via the positional hash, not as a kwarg.
+          value = (value || {}).merge(kwargs.compact)
         end
 
         @raw = normalize_value(value.nil? ? {} : value)
